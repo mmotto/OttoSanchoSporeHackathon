@@ -256,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (polylineOptions != null) {
                 mMap.addPolyline(polylineOptions);
             } else {
-                //Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_SHORT).show();
             }
 
 //            LatLng me = getLocation(getApplicationContext());
