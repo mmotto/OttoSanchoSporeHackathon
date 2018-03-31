@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                t.schedule(update, 0, 100);
+                t.schedule(update, 100, 100);
             }
         });
     }
@@ -317,8 +317,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             radius = 6371;
                             double distance = Math.sqrt(x * x + y * y) * radius;
                             distanceInit = Math.sqrt(xInit * xInit + yInit * yInit) * radius;
-                            if (distance > 1){
-                                Toast.makeText(getApplicationContext(), "Danger", Toast.LENGTH_SHORT).show();
+                            if (distance < 1){
+                                //Toast.makeText(getApplicationContext(), "Danger", Toast.LENGTH_SHORT).show();
+                                final Button warning = findViewById(R.id.button2);
                             }
                         }
                     }
