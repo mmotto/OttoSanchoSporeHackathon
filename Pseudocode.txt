@@ -1,0 +1,53 @@
+Objectives: Create a running app that can notify a contact of choice (plus EMS) after a set of conditions are met. 
+These conditions are customizeable.
+
+Condition 1: Straying from the path specified by the user by more than a preset distance: (Could be kidnapped, attacked, etc.)
+Conditoin 2: Stopping for longer than a preset time: (Phone could be dropped, i.e. attacker removes phone from person so 
+ems cannot be notified)
+Condition 3: Phone is held up to ear to enable "danger mode", similar to holding down the button on the SafeTrek(tm) app. If the phone is removed
+from the ear and a pin is not entered within a set period of time, EMS is automatically notified.
+
+Program Workflow:
+Launch App
+Enter route, or load a preset route already entered by user at a different time.
+User presses "Start My Run" button to begin their run
+App collects position and gyroscopic data 10 times per second.
+If at any time any of the conditions are met, EMS and their contact of choice (if specified) are called.
+
+How to set up Condition 1:
+Distance from path is calculated using waypoints: approximating distance by assuming a straight line between the points.
+"waypoint" in this context refers to the 2 closest waypoints, a "From" and a "To". When the user passes within a set distance (5m or so)
+of the "To" waypoint, the "To" becomes the "From" and the next waypoint becomes the "To". At each location update, the distance is calculated
+and compared to Condition 1.
+
+How to set up Condition 2:
+If the location/distance calculated from the Condition 1 code remains the same, with some variation allowed for tolerances, for a set
+period of time (1 second or so), then the phone is "stationary". If the phone is stationary for more than 30 seconds (More than enough time
+to cross a street), then the phone has been stationary for too long. An alert is passed to the user, and if their PIN code is not entered
+within another 15 seconds, EMS and their contact of choice is notified.
+
+How to set up Condition 3:
+In a normal run, the phone's orientation is below horizontal. I.E.: the phone is laying with it's positive Z axis pointing below the
+horizon, as defined by the Android APK. When the phone is being held with the Z axis pointing nearly towards 30 degrees above the horizon
+behind the runner's velocity vector, then it can be assumed that the phone is being held against the ear. (To improve accuracy, data from
+the accelerometer regarding rotation along the Y axis for longer than normal (instead of the back-and-forth, moving up to the head and staying)
+). Once the phone is lowered to a normal position, or moved away from the head, the user has 15 seconds to enter their PIN code, before EMS
+and their contact of choice is notified.
+
+How to set up Condition 4:
+If the phone is thrown violently, as in if the user is pulled away or hit by a vehicle, then the phone gives the user a set amount
+of time to enter their PIN code, before EMS and their contact of choice is notified. This time should be larger, since dropping the
+phone will register as a violent movement when it strikes the ground. "Violent Movement" is defined as a large acceleration not in
+the direction of the user's velocity vector.
+
+At the end of the run, the user can view basic data about their run, including average pace, distance, and calories burned.
+The user will also be presented with the option of saving the route (if not saved already) to a list of previous routes that can be
+loaded for their next run.
+
+The user should be able to change their maximum deviation from the route, maximum "stationary" time, and time before EMS is automatically
+notified among all conditions. 
+
+Sources:
+Wikipedia (For LatLong distance calculations and conversion to meters/miles)
+Java Oracle (For Timer reference)
+developer.android.com (because neither of us have ever used any kind of android app, much less developed one)
